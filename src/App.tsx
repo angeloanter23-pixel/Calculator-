@@ -1,132 +1,75 @@
 import React, { useState } from 'react';
-import { Calculator, History, RotateCcw, Delete, Equal, Minus, Plus, X, Divide, Percent } from 'lucide-react';
+import { Rocket, Github, ExternalLink, Zap, Shield, Globe } from 'lucide-react';
 
 const App = () => {
-  const [display, setDisplay] = useState('0');
-  const [equation, setEquation] = useState('');
-  const [lastResult, setLastResult] = useState<number | null>(null);
-
-  const handleNumber = (num: string) => {
-    if (display === '0' || lastResult !== null) {
-      setDisplay(num);
-      setLastResult(null);
-    } else {
-      setDisplay(display + num);
-    }
-  };
-
-  const handleOperator = (op: string) => {
-    setEquation(display + ' ' + op + ' ');
-    setDisplay('0');
-  };
-
-  const calculate = () => {
-    try {
-      const fullEquation = equation + display;
-      // Basic eval-like logic for simple ops
-      const result = eval(fullEquation.replace('×', '*').replace('÷', '/'));
-      setDisplay(String(Number(result.toFixed(8))));
-      setEquation('');
-      setLastResult(result);
-    } catch (e) {
-      setDisplay('Error');
-    }
-  };
-
-  const clear = () => {
-    setDisplay('0');
-    setEquation('');
-    setLastResult(null);
-  };
-
-  const deleteLast = () => {
-    if (display.length > 1) {
-      setDisplay(display.slice(0, -1));
-    } else {
-      setDisplay('0');
-    }
-  };
-
-  const toggleSign = () => {
-    setDisplay(String(parseFloat(display) * -1));
-  };
-
-  const percentage = () => {
-    setDisplay(String(parseFloat(display) / 100));
-  };
-
-  const Button = ({ children, onClick, variant = 'default', className = '' }: any) => {
-    const variants: any = {
-      default: 'bg-slate-800 hover:bg-slate-700 text-white',
-      operator: 'bg-orange-500 hover:bg-orange-400 text-white',
-      action: 'bg-slate-600 hover:bg-slate-500 text-white',
-      special: 'bg-slate-700 hover:bg-slate-600 text-teal-400 font-bold',
-    };
-
-    return (
-      <button
-        onClick={onClick}
-        className={`h-16 w-full rounded-2xl text-xl font-medium transition-all active:scale-95 flex items-center justify-center shadow-lg ${variants[variant]} ${className}`}
-      >
-        {children}
-      </button>
-    );
-  };
-
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-sm bg-slate-900 p-6 rounded-[2.5rem] shadow-2xl border border-slate-800">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8 px-2">
-          <div className="flex items-center gap-2 text-slate-400">
-            <Calculator size={20} />
-            <span className="text-xs font-semibold uppercase tracking-widest">Calculator</span>
+    <div className="min-h-screen flex flex-col">
+      <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Rocket className="w-8 h-8 text-blue-600" />
+            <span className="font-bold text-xl tracking-tight">ViteReact</span>
           </div>
-          <History size={20} className="text-slate-500 cursor-pointer hover:text-slate-300 transition-colors" />
-        </div>
-
-        {/* Display */}
-        <div className="mb-8 px-2 text-right min-h-[120px] flex flex-col justify-end overflow-hidden">
-          <div className="text-slate-500 text-lg h-8 mb-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            {equation}
-          </div>
-          <div className="text-6xl font-light text-white overflow-x-auto whitespace-nowrap scrollbar-hide">
-            {display}
+          <nav className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
+            <a href="#" className="hover:text-blue-600 transition-colors">Features</a>
+            <a href="#" className="hover:text-blue-600 transition-colors">Docs</a>
+            <a href="#" className="hover:text-blue-600 transition-colors">Community</a>
+          </nav>
+          <div className="flex items-center gap-4">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all">
+              Get Started
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* Keypad */}
-        <div className="grid grid-cols-4 gap-4">
-          <Button onClick={clear} variant="action">
-            <RotateCcw size={22} className="text-orange-400" />
-          </Button>
-          <Button onClick={toggleSign} variant="action">+/-</Button>
-          <Button onClick={percentage} variant="action"><Percent size={20} /></Button>
-          <Button onClick={() => handleOperator('/')} variant="operator"><Divide size={24} /></Button>
+      <main className="flex-grow">
+        <section className="py-20 px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 mb-6">
+              Build faster with <span className="text-blue-600">Vite, React & Tailwind</span>
+            </h1>
+            <p className="text-xl text-slate-600 mb-10 leading-relaxed">
+              The ultimate starter template for modern web development. 
+              Ship high-quality apps with zero configuration and maximum speed.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <button className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all">
+                <Zap className="w-5 h-5" /> Start Building
+              </button>
+              <button className="border border-slate-200 hover:bg-slate-100 text-slate-700 px-8 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all">
+                <Github className="w-5 h-5" /> View Source
+              </button>
+            </div>
+          </div>
+        </section>
 
-          <Button onClick={() => handleNumber('7')}>7</Button>
-          <Button onClick={() => handleNumber('8')}>8</Button>
-          <Button onClick={() => handleNumber('9')}>9</Button>
-          <Button onClick={() => handleOperator('*')} variant="operator"><X size={24} /></Button>
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid md:grid-cols-3 gap-8">
+              {[ 
+                { icon: <Zap className="w-6 h-6" />, title: "Lightning Fast", desc: "Vite's HMR ensures a development experience that's instant and responsive." },
+                { icon: <Shield className="w-6 h-6" />, title: "Type Safe", desc: "Built with TypeScript from the ground up for maximum reliability and scaling." },
+                { icon: <Globe className="w-6 h-6" />, title: "Ready to Ship", desc: "Optimized production builds with Tailwind CSS for industry-standard performance." }
+              ].map((feature, i) => (
+                <div key={i} className="p-8 rounded-2xl border border-slate-100 bg-slate-50 hover:shadow-lg transition-shadow">
+                  <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                  <p className="text-slate-600">{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
-          <Button onClick={() => handleNumber('4')}>4</Button>
-          <Button onClick={() => handleNumber('5')}>5</Button>
-          <Button onClick={() => handleNumber('6')}>6</Button>
-          <Button onClick={() => handleOperator('-')} variant="operator"><Minus size={24} /></Button>
-
-          <Button onClick={() => handleNumber('1')}>1</Button>
-          <Button onClick={() => handleNumber('2')}>2</Button>
-          <Button onClick={() => handleNumber('3')}>3</Button>
-          <Button onClick={() => handleOperator('+')} variant="operator"><Plus size={24} /></Button>
-
-          <Button onClick={() => handleNumber('0')} className="col-span-1">0</Button>
-          <Button onClick={() => handleNumber('.')}>.</Button>
-          <Button onClick={deleteLast}><Delete size={22} /></Button>
-          <Button onClick={calculate} variant="operator" className="bg-gradient-to-br from-orange-500 to-orange-600">
-            <Equal size={28} />
-          </Button>
+      <footer className="bg-slate-900 text-slate-400 py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p>© 2024 Your App Project. Built with love and modern tech.</p>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
